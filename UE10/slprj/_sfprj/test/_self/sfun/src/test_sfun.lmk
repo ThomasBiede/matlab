@@ -1,0 +1,29 @@
+CC     = "D:\MATLAB\R2018a\sys\lcc64\lcc64\bin\lcc64.exe"
+LD     = "D:\MATLAB\R2018a\sys\lcc64\lcc64\bin\lcclnk64.exe"
+LIBCMD = "D:\MATLAB\R2018a\sys\lcc64\lcc64\bin\lcclib64.exe"
+CFLAGS = -dll -noregistrylookup  -c -Zp8 -DLCC_WIN64 -DMATLAB_MEX_FILE -nodeclspec 
+LDFLAGS = -s -dll -L"D:\MATLAB\R2018a\sys\lcc64\lcc64\lib64" -entry LibMain -map sfun.map 
+LIBFLAGS = 
+
+OBJECTS = \
+	"test_sfun.obj"\
+	"c2_test.obj"\
+	"test_sfun_registry.obj"\
+	"lccstub.obj"\
+	"c_mexapi_version.obj"\
+
+INCLUDE_PATH= -I"D:\MATLAB\R2018a\extern\include"  -I"D:\MATLAB\R2018a\simulink\include"  -I"D:\MATLAB\R2018a\simulink\include\sf_runtime"  -I"D:\MATLAB\R2018a\stateflow\c\mex\include"  -I"D:\MATLAB\R2018a\rtw\c\src"  -I"C:\Users\thoma\Google Drive\Scripts\MatLab\UE10\slprj\_sfprj\test\_self\sfun\src"  -I"D:\MATLAB\R2018a\sys\lcc64\lcc64\include64" 
+ 
+
+test_sfun.mexw64 : $(MAKEFILE) $(OBJECTS)
+	$(LD) $(LDFLAGS) -o test_sfun.mexw64 @test_sfun.lmko
+test_sfun.obj :	"test_sfun.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "test_sfun.c"
+c2_test.obj :	"c2_test.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c2_test.c"
+test_sfun_registry.obj :	"test_sfun_registry.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "test_sfun_registry.c"
+lccstub.obj :	"D:\MATLAB\R2018a\sys\lcc64\lcc64\mex\lccstub.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "D:\MATLAB\R2018a\sys\lcc64\lcc64\mex\lccstub.c"
+c_mexapi_version.obj :	"D:\MATLAB\R2018a\extern\version\c_mexapi_version.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "D:\MATLAB\R2018a\extern\version\c_mexapi_version.c"
